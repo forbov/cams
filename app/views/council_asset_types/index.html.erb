@@ -1,0 +1,41 @@
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<h1>Asset Types</h1>
+	</div>
+</div>
+<div class="row">
+ 	<div class="small-3 columns" align="right">
+    <strong>Council</strong>
+  </div>
+  <div class="small-9 columns">
+  	<%= @council.council_name %>
+  </div>
+</div>
+<br />
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<table>
+		  <tr>
+		    <th>Asset Type</th>
+		    <th colspan="2"></th> 
+		    
+		  </tr>
+		  <% @council_asset_types.each do |council_asset_type| %> 
+		  	 <tr>
+			     <td><%= asset_type_desc(council_asset_type.asset_type_code) %></td>
+			     <td><%= link_to 'Destroy', council_council_asset_type_path(@council, council_asset_type), method: :delete, 
+			                                data: { confirm: 'Are you sure?' }%></td>
+			   </tr>
+		  <% end %>
+		</table>
+	</div>
+</div>
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<ul class="inline-list">
+			<li><%= link_to 'Back', council_path(@council) %></li>
+			<li><%= link_to 'Add Asset Type', new_council_council_asset_type_path(@council) %></li>
+			<li><%= link_to 'Select Asset Types', select_asset_types_council_path(@council) %></li>
+		</ul>
+	</div>
+</div>

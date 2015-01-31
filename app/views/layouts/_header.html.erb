@@ -1,0 +1,59 @@
+<div class="contain-to-grid sticky">
+	<nav class="top-bar">
+		<ul class="title-area">
+			<li class="name">
+				<%= link_to image_tag("cams_logo.png", height: "40", width: "90"), root_path, id: "logo" %>
+			</li>
+			<li class="toggle-topbar menu-icon">
+				<a href="#"><span>Menu </span></a>
+			</li>
+		</ul>
+		<section class="top-bar-section">
+			<% if signed_in? && current_user.user_role_code != "ADMIN" %>
+				<ul>
+					<li></li>
+					<li><a href="#"><%= @current_council.council_name %> Council</a></li>
+				</ul>
+			<% end %>
+			<ul class="right">
+				<li class="divider"></li>
+				<li><%= link_to "Home", root_path %></li>
+				<li class="divider"></li>
+				<li><%= link_to "Help", help_path %></li>
+				<li class="divider"></li>
+				<% if signed_in? %>
+					<% case current_user.user_role_code
+						when "ADMIN" %>
+					<li class="has-dropdown"><a href="#">Admin</a>
+						<ul class="dropdown">
+							<li><%= link_to "Users", users_path %></li>
+							<li><%= link_to "Councils", councils_path %></li>
+						</ul>
+					</li>
+					<% when "COUNCIL" %>
+					<li class="has-dropdown"><a href="#">Council</a>
+						<ul class="dropdown">
+							<li><%= link_to "Assets", assets_path %></li>
+							<li><%= link_to "Reports", council_reports_path %></li>
+							<li><%= link_to "Priority Weighting", council_council_priority_weights_path(current_user.council_id) %></li>
+						</ul>
+					</li>
+					<% else %>
+					<li><%= link_to "Reports", council_reports_path %></li>
+					<% end %>
+					<li class="divider"></li>
+					<li class="has-dropdown"><a href="#">Account</a>
+						<ul class="dropdown">
+							<li><%= link_to "Profile", current_user %></li>
+							<li><%= link_to "Settings", '#' %></li>
+							<li class="divider"></li>
+							<li><%= link_to "Sign out", signout_path, method: "delete" %></li>
+						</ul>
+					</li>
+				<% else %>
+				<li><%= link_to "Sign in", signin_path %></li>
+				<% end %>
+			</ul>
+		</section>
+	</nav>
+</div>

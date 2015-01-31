@@ -1,0 +1,55 @@
+<% if @council_report.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@council_report.errors.count, "error") %> prohibited
+      this report from being saved:</h2>
+    <ul>
+    <% @council_report.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+  
+<%= simple_form_for([@council_report]) do |f| %>
+  <%= f.hidden_field :report_generated, :value => false %>
+  <div class="row collapse">
+	 	<div class="small-3 columns">
+	    <%= f.label :report_title, class: "right inline" %>
+	  </div>
+	  <div class="small-5 columns">
+	  	<%= f.text_field :report_title %>
+	  </div>
+	  <div class="small-4 columns"></div>
+	</div>
+  <div class="row collapse">
+	 	<div class="small-3 columns">
+	    <%= f.label :report_desc, class: "right inline" %>
+	  </div>
+	  <div class="small-8 columns">
+	  	<%= f.text_area :report_desc %>
+	  </div>
+	  <div class="small-1 columns"></div>
+	</div>
+  <div class="row collapse">
+	 	<div class="small-3 columns">
+	    <%= f.label :report_date, class: "right inline" %>
+	  </div>
+	  <div class="small-3 columns">
+		  <% if @council_report.id? %>
+	  		<%= f.input :report_date, :value => @council_report.report_date.to_s(:au_short_date), 
+	  																label: false, :as => :date_picker %>
+	  	<% else %>
+	  		<%= f.input :report_date, label: false, :as => :date_picker %>
+	  	<% end %>
+	  </div>
+	  <div class="small-6 columns"></div>
+	</div>
+	<div class="row collapse">
+  	<div class="small-1 small-offset-2 columns">
+			<ul class="inline-list">
+				<li><%= link_to 'Back', council_reports_path %></li>
+			</ul>
+		</div>
+  	<div class="small-9 columns"><%= f.submit  class: "button" %></div>
+  </div>
+<% end %>

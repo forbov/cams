@@ -1,0 +1,59 @@
+<% if @asset.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@asset.errors.count, "error") %> prohibited
+      this asset from being saved:</h2>
+    <ul>
+    <% @asset.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+  
+<%= form_for([@asset]) do |f| %>
+  <div class="row collapse">
+  	<div class="small-3 columns">
+      <%= f.label :asset_name, class: "right inline" %>
+    </div>
+    <div class="small-5 columns">
+    	<%= f.text_field :asset_name %>
+   	</div>
+   	<div class="small-4 columns"></div>
+	</div>
+	<% if params[:action] == "new" %>
+		<div class="row collapse">
+	  	<div class="small-3 columns">
+	      <%= f.label 'Asset type', class: "right inline" %>
+	    </div>
+	    <div class="small-6 columns">
+	    	<%= f.collection_select(:asset_type_code, asset_type_codes_for_council(@current_council), 
+	      	                      :system_code, :system_code_desc, :prompt => true ) %>
+	    </div>
+	    <div class="small-3 columns"></div>
+	  </div>
+	<% else %>
+		<div class="row collapse">
+			<div class="small-3 columns">
+	      <%= f.label 'Asset type', class: "right inline" %>
+	    </div>
+	    <div class="small-6 columns">
+			  <%= f.label asset_type_desc(@asset.asset_type_code), class: "left inline" %>
+		  </div>
+		  <div class="small-3 columns"></div>
+		</div>
+	<% end %>
+
+  <%= f.fields_for :address do |builder| %>
+    <%= render 'addresses/form', :f => builder %>
+  <% end %>
+  
+  <div class="row collapse">
+		<div class="small-1 small-offset-2 columns">
+			<ul class="inline-list">
+				<li><%= link_to 'Back', assets_path %></li>
+			</ul>
+		</div>
+  	<div class="small-9 columns"><%= f.submit  class: "button" %></div>
+  </div>
+<% end %>
+

@@ -1,0 +1,3 @@
+class SystemCodesController < ApplicationController
+
+end

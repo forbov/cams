@@ -1,0 +1,52 @@
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<h1>Asset Assessments</h1>
+	</div>
+</div>
+<div class="row">
+	<div class="small-3 columns" align="right">
+    <strong>Asset:</strong>
+  </div>
+  <div class="small-9 columns">
+  	<%= @asset.asset_name %>
+  </div>
+</div>
+<br/>
+
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<table>
+		  <tr>
+		    <th>Priority Item</th>
+		    <th>Assessed Value</th>
+		    <th colspan="1"></th>
+		    
+		  </tr>
+		
+		  <% previous_category = "NIL"
+		    for assessment in @asset_assessments 
+		       priority_item = PriorityItem.find(assessment.priority_item_id)
+		       item_value = PriorityItemValue.where(:priority_item => priority_item, :valid_value => assessment.asset_priority_value).take 
+		       if priority_item.priority_category_code != previous_category 
+		         previous_category = priority_item.priority_category_code %>
+		       	  <tr>
+		       	  	<th colspan="2" align="left"><%= priority_category_desc(priority_item.priority_category_code) %></th>
+		       	  </tr>
+		       <% end %> 
+			   <tr>
+			     <td><%= " - " + priority_item.priority_item_desc %></td>
+			     <td><%= item_value.display_value %></td>
+			     <td><%= link_to 'Edit', edit_council_report_asset_assessment_path(@council_report, assessment) %></td>
+			   </tr>
+		  <% end %>
+		  
+		</table>
+	</div>
+</div>
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<ul class="inline-list">
+			<li><%= link_to 'Back', council_report_asset_assessments_path(@council_report) %></li>
+		</ul>
+	</div>
+</div>

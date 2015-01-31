@@ -1,0 +1,45 @@
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<h1>Proposed Works</h1>
+	</div>
+</div>
+<div class="row">
+	<div class="small-3 columns" align="right">
+    <strong>Council Report</strong>
+  </div>
+  <div class="small-9 columns">
+  	<%= @council_report.report_title %>
+  </div>
+</div>
+<br/>
+<div class="row">
+			<div class="small-3 columns" align="right">
+		Select Asset
+	</div>
+	<div class="small-9 columns">
+		<table>
+		  <tr>
+		    <th>Asset</th>
+		  </tr>
+		  <% previous_type_code = "NIL"
+		     for assets in @report_assets
+		       if previous_type_code != assets.asset_type_code
+		       	 previous_type_code = assets.asset_type_code %>
+		       	 <tr>
+		       	   <th colspan="1" align="left"><%= asset_type_desc(assets.asset_type_code) %></th>
+		       	 </tr>
+		       <% end %>
+		       <tr>
+			     <td><%= link_to assets.asset_name, council_report_proposed_work_path(@council_report, assets.asset_id) %></td>
+			   </tr>
+		  <% end %>
+		</table>
+	</div>
+</div>
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<ul class="inline-list">
+			<li><%= link_to 'Back', council_report_path(@council_report) %></li>
+		</ul>
+	</div>
+</div>

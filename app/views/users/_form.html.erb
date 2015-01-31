@@ -1,0 +1,94 @@
+<% if @user.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@user.errors.count, "error") %> prohibited
+      this user from being saved:</h2>
+    <ul>
+    <% @user.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_for(@user) do |f| %>
+  <div class="row collapse">
+	 	<div class="small-3 columns">
+		  <%= f.label :email, class: "right inline" %>
+	  </div>
+	  <div class="small-4 columns">
+		  <%= f.text_field :email %>
+	  </div>
+	  <div class="small-5 columns"></div>
+	</div>
+  <div class="row collapse">
+	 	<div class="small-3 columns">
+			<%= f.label 'User Role', class: "right inline" %>
+	  </div>
+	  <div class="small-9 columns">
+			<%= f.collection_select(:user_role_code, user_role_codes, 
+      			                  :system_code, :system_code_desc, :prompt => true ) %>
+	  </div>
+	</div>
+  <div class="row collapse">
+	 	<div class="small-3 columns">
+			<%= f.label 'Council', class: "right inline" %>
+	  </div>
+	  <div class="small-9 columns">
+			<%= f.collection_select(:council_id, Council.all, 
+      			                  :id, :council_name, :prompt => 'None (Administrator)' ) %>
+	  </div>
+	</div>
+  <div class="row collapse">
+	 	<div class="small-3 columns">
+		  <%= f.label :password, class: "right inline" %>
+	  </div>
+	  <div class="small-3 columns">
+		  <%= f.password_field :password %>
+	  </div>
+	  <div class="small-6 columns"></div>
+	</div>
+  <div class="row collapse">
+	 	<div class="small-3 columns">
+		  <%= f.label :password_confirmation, "Confirmation", class: "right inline" %>
+	  </div>
+	  <div class="small-3 columns">
+		  <%= f.password_field :password_confirmation %>
+	  </div>
+	  <div class="small-6 columns"></div>
+	</div>
+  <div class="row collapse">
+	 	<div class="small-3 columns">
+		  <%= f.label :first_name, class: "right inline" %>
+	  </div>
+	  <div class="small-3 columns">
+		  <%= f.text_field :first_name %>
+	  </div>
+	  <div class="small-6 columns"></div>
+	</div>
+  <div class="row collapse">
+	 	<div class="small-3 columns">
+		  <%= f.label :last_name, class: "right inline" %>
+	  </div>
+	  <div class="small-3 columns">
+		  <%= f.text_field :last_name %>
+	  </div>
+	  <div class="small-6 columns"></div>
+	</div>
+  <div class="row collapse">
+	 	<div class="small-3 columns">
+			<%= f.label :contact_phone, class: "right inline" %>
+	  </div>
+	  <div class="small-2 columns">
+		  <%= f.text_field :contact_phone %>
+	  </div>
+	  <div class="small-7 columns"></div>
+	</div>
+  <div class="row collapse">
+  	<div class="small-1 small-offset-2 columns">
+			<ul class="inline-list">
+				<li><%= link_to 'Back', users_path %></li>
+			</ul>
+		</div>
+  	<div class="small-9 columns"><%= f.submit  class: "button" %></div>
+  </div>
+<% end %>

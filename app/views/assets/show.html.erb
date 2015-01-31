@@ -1,0 +1,60 @@
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<h1>Asset</h1>
+	</div>
+</div>
+<div class="row">
+	<div class="small-3 columns" align="right">
+    <strong>Asset Name:</strong>
+  </div>
+  <div class="small-9 columns">
+  	<%= @asset.asset_name %>
+  </div>
+</div>
+<br/>
+<div class="row">
+	<div class="small-3 columns" align="right">
+  	<strong>Asset Type:</strong>
+  </div>
+  <div class="small-9 columns">
+	  <%= asset_type_desc(@asset.asset_type_code) %>
+  </div>
+</div>
+<br/>
+<div class="row">
+	<div class="small-3 columns" align="right">
+	  <strong>Address:</strong>
+  </div>
+  <div class="small-9 columns">
+	  <%= @asset.address.address_long %>
+  </div>
+</div>
+<br/>
+<div class="row">
+	<div class="small-3 columns" align="right">
+  	<strong>Postcode:</strong>
+  </div>
+  <div class="small-9 columns">
+	  <%= @asset.address.postcode %>
+  </div>
+</div>
+<br/>
+<div class="row">
+	<div class="small-3 columns" align="right">
+  	<strong>State:</strong>
+  </div>
+  <div class="small-9 columns">
+	  <%= state_desc(@asset.address.state_code) %>
+  </div>
+</div>
+<br/>
+<div class="row collapse">
+	<div class="small-10 small-offset-2 columns">
+		<ul class="inline-list">
+			<li><%= link_to 'Back', assets_path %></li>
+			<li><%= link_to 'Edit', edit_asset_path %></li>
+			<li><%= link_to 'Components', asset_asset_components_path(@asset) %></li>
+		</ul>
+	</div>
+</div>
+

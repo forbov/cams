@@ -1,0 +1,19 @@
+<p>
+  <strong>Component Name:</strong>
+  <%= @component.component_name %>
+</p>
+<p>
+  <strong>Asset Type:</strong>
+  <%= asset_type_desc(@component.asset_type_code) %>
+</p>
+<p>
+  <strong>Description:</strong>
+  <%= @component.component_desc %>
+</p>
+<p>
+  <strong>Default Requirement:</strong>
+  <%= @component.default_requirement %>
+</p>
+
+<%= link_to 'Back', components_path %>
+<%= link_to 'Edit', edit_component_path %>

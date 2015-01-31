@@ -1,0 +1,8 @@
+development:
+  image_dir: 'D:/Users/Michael/cams/images'
+
+test:
+  image_dir: 'D:/Users/Michael/cams/images'
+
+production:
+  image_dir: 'D:/Users/Michael/cams/images'

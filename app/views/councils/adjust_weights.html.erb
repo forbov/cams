@@ -1,0 +1,39 @@
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<h1>Adjust Priority Weighting</h1>
+	</div>
+</div>
+
+<div class="row">
+	<div class="small-10 small-offset-2 columns">
+		<table align="center">
+		  <tr>
+		    <th>Priority Item</th>
+		    <th>Weighting</th>
+		  </tr>
+		
+		<%= form_for(:councils, url: {action: "save_weights"}) do |form|
+			  previous_category = "NIL" 
+		      @current_weights.each_with_index do |current_weight, index| %>
+		       <%= fields_for "adjusted_weights[#{index}]", current_weight do |f| %>
+		         <%= f.hidden_field :id, :value => current_weight.id %>
+		         <% if current_weight.priority_category_code != previous_category 
+		              previous_category = current_weight.priority_category_code %>
+		       	      <tr>
+		       	  	    <th colspan="2" align="left"><%= priority_category_desc(current_weight.priority_category_code) %></th>
+		       	      </tr>
+		         <% end %>
+		         <tr>
+		           <td><%= " - " + current_weight.priority_item_desc %></td>
+		           <td><%= f.number_field :priority_weight, :value => current_weight.priority_weight, style: "text-align: right", max: "100" %></td>
+		         </tr>
+		       <% end %>
+		  <% end %>
+		</table>
+	</div>
+</div>
+  <div class="row">
+  	<div class="small-1 small-offset-2 columns"><%= link_to 'Back', council_council_priority_weights_path(@council) %></div>
+  	<div class="small-9 columns"><%= form.submit "Adjust Weighting", class: "button" %></div>
+  </div>
+<% end %>

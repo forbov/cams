@@ -1,0 +1,47 @@
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<h1>New Asset for Council Report</h1>
+	</div>
+</div>
+
+<% if @report_asset.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@report_asset.errors.count, "error") %> prohibited
+      this asset from being saved:</h2>
+    <ul>
+    <% @report_asset.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+  
+<%= form_for [ :council_report, @report_asset] do |f| %>
+  <div class="row collapse">
+	 	<div class="small-3 columns">
+	    <%= f.label 'Council report', class: "right inline" %>
+	  </div>
+	  <div class="small-9 columns">
+	  	<%= f.label @council_report.report_title, class: "inline"%>
+	  </div>
+	</div>
+
+  <div class="row collapse">
+	 	<div class="small-3 columns">
+	    <%= f.label 'Asset to add', class: "right inline" %>
+		</div>
+	  <div class="small-9 columns">
+      <%= f.collection_select(:asset_id, @assets_not_in, 
+                              :id, :asset_name, :prompt => true ) %>
+	  </div>
+	</div>
+  <div class="row collapse">
+  	<div class="small-1 small-offset-2 columns">
+			<ul class="inline-list">
+				<li><%= link_to 'Back', council_report_report_assets_path(@council_report) %></li>
+			</ul>
+		</div>
+  	<div class="small-9 columns"><%= f.submit  class: "button" %></div>
+  </div>
+<% end %>
+

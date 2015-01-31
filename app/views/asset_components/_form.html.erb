@@ -1,0 +1,48 @@
+<% if @asset_component.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@asset_component.errors.count, "error") %> prohibited
+      this asset from being saved:</h2>
+    <ul>
+    <% @asset_component.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+  
+<%= form_for [@council, @asset, @asset_component] do |f| %>
+	<% component = Component.find(@asset_component.component_id) %>
+	<div class="row collapse">
+  	<div class="small-3 columns">
+      <%= f.label 'Asset', class: "right inline" %>
+    </div>
+    <div class="small-9 columns">
+    	<%= f.label @asset.asset_name, class: "inline" %>
+	  </div>
+	</div>
+	<div class="row collapse">
+  	<div class="small-3 columns">
+      <%= f.label 'Component', class: "right inline" %>
+    </div>
+    <div class="small-9 columns">
+    	<%= f.label component.component_name, class: "inline" %>
+	  </div>
+	</div>
+	 
+  <div class="row collapse">
+  	<div class="small-3 columns">
+		  <%= f.label :requirement, class: "right inline" %>
+		</div>
+		<div class="small-8 columns">
+      <%= f.text_area :requirement %>
+		</div>
+		<div class="small-1 columns"></div>
+	</div>
+	
+  <div class="row collapse">
+  	<div class="small-1 small-offset-2 columns">
+  		<%= link_to 'Back', asset_asset_component_path %>
+  	</div>
+  	<div class="small-9 columns"><%= f.submit  class: "button" %></div>
+  </div>
+<% end %>

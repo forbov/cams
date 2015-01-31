@@ -1,0 +1,44 @@
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<h1>Add Asset Types</h1>
+	</div>
+</div>
+<div class="row">
+ 	<div class="small-3 columns" align="right">
+    <strong>Council</strong>
+  </div>
+  <div class="small-9 columns">
+  	<%= @council.council_name %>
+  </div>
+</div>
+<br />
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<table>
+		  <tr>
+		    <th>Asset Type</th>
+		    <th>Check to Add</th> 
+		    
+		  </tr>
+<%= form_for(:councils, url: {action: "save_asset_types"}) do |form| %>
+  <% @asset_types_not_in.each_with_index do |asset_type_not_in, index| %>
+    <%= fields_for "asset_types_to_check[#{index}]", asset_type_not_in do |f| %>
+      <%= f.hidden_field :asset_type_code, :value => asset_type_not_in.asset_type_code %>
+      <tr>
+        <td><%= asset_type_not_in.asset_type_desc %></td>
+        <td><%= f.check_box :add_asset_type %></td>
+      </tr>
+		<% end %>
+	<% end %>
+		</table>
+	</div>
+</div>
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<ul class="inline-list">
+    	<li><%= link_to 'Back', council_council_asset_types_path(@council) %></li>
+    	<li><%= form.submit "Add Asset Types", class: "button" %></li>
+   	</ul>
+  </div>
+</div>
+<% end %>

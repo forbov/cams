@@ -1,0 +1,52 @@
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<h1>Council</h1>
+	</div>
+</div>
+<div class="row">
+	<div class="small-3 columns" align="right">
+	  <strong>Council Name:</strong>
+  </div>
+  <div class="small-9 columns">
+	  <%= @council.council_name %>
+  </div>
+</div>
+<br/>
+<div class="row">
+	<div class="small-3 columns" align="right">
+  	<strong>Address:</strong>
+  </div>
+  <div class="small-9 columns">
+	  <%= @council.address.address_long %>
+  </div>
+</div>
+<br/>
+<div class="row">
+	<div class="small-3 columns" align="right">
+	  <strong>Postcode:</strong>
+  </div>
+  <div class="small-9 columns">
+	  <%= @council.address.postcode %>
+  </div>
+</div>
+<br/>
+<div class="row">
+	<div class="small-3 columns" align="right">
+	  <strong>State:</strong>
+  </div>
+  <div class="small-9 columns">
+	  <%= state_desc(@council.address.state_code) %>
+  </div>
+</div>
+<br/>
+<div class="row collapse">
+	<div class="small-10 small-offset-2 columns">
+		<ul class="inline-list">
+			<li><%= link_to 'Back', councils_path %></li>
+			<li><%= link_to 'Edit', edit_council_path %></li>
+			<li><%= link_to 'Priority Weighting', council_council_priority_weights_path(@council) %></li>
+			<li><%= link_to 'Asset Types', council_council_asset_types_path(@council) %></li>
+		</ul>
+	</div>
+</div>
+

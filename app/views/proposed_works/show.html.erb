@@ -1,0 +1,66 @@
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<h1>Proposed Works</h1>
+	</div>
+</div>
+<div class="row">
+	<div class="small-3 columns" align="right">
+    <strong>Council Report:</strong>
+  </div>
+  <div class="small-9 columns">
+  	<%= @council_report.report_title %>
+  </div>
+</div>
+<br/>
+<div class="row">
+	<div class="small-3 columns" align="right">
+    <strong>Asset Name:</strong>
+  </div>
+  <div class="small-9 columns">
+  	<%= @asset.asset_name %>
+  </div>
+</div>
+<br/>
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<table>
+		  <tr>
+		    <th>Component and Works</th>
+		    <th>Priority</th>
+		    <th>Work Cost</th>
+		    <th>Cost Type</th>
+		    <th colspan="2"></th>
+		  </tr>
+		
+		  <% for asset_component in @asset_components 
+		       component = Component.find(asset_component.component_id) %>
+		       <tr>
+			     <td style="font-weight:bold"><%= component.component_name %></td>
+			     <td colspan="3"></td>
+			     <td><%= link_to 'Add', new_council_report_proposed_work_path(@council_report, :asset_component_id => asset_component.id) %></td>
+			     <td colspan="1"></td>
+			   </tr> 
+		       <% works = ProposedWork.where(council_report_id: @council_report, asset_component_id: asset_component)
+		         for work in works %>
+		           <tr>
+			         <td><%= link_to " - " + work.proposed_work, piece_of_work_council_report_proposed_work_path(@council_report, work) %></td>
+			         <td><%= priority_level_desc(work.priority_level_code) %></td>
+			         <td align="right"><%= number_to_currency(work.work_cost) %></td>
+			         <td><%= cost_type_desc(work.cost_type_code) %></td>
+			         <td><%= link_to 'Edit', edit_council_report_proposed_work_path(@council_report, work) %></td>
+			         <td><%= link_to 'Destroy', council_report_proposed_work_path(@council_report, work) , method: :delete, 
+			                                data: { confirm: 'Are you sure?' } %></td>
+			       </tr>
+			     <% end %>	     
+			   </tr>
+		  <% end %>
+		</table>
+	</div>
+</div>
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<ul class="inline-list">
+			<li><%= link_to 'Back', council_report_proposed_works_path(@council_report) %></li>
+		</ul>
+	</div>
+</div>

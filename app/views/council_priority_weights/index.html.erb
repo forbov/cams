@@ -1,0 +1,40 @@
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<h1>Priority Weighting</h1>
+	</div>
+</div>
+
+<div class="row">
+	<div class="small-10 small-offset-2 columns">
+		<table>
+		  <tr>
+		    <th>Priority Item</th>
+		    <th>Weighting</th>
+		  </tr>
+		   
+		  <% previous_category = "NIL"
+		     for council_priority_weight in @council_priority_weights 
+		       if council_priority_weight.priority_category_code != previous_category 
+		         previous_category = council_priority_weight.priority_category_code %>
+		       	  <tr>
+		       	  	<th colspan="2" align="left"><%= priority_category_desc(council_priority_weight.priority_category_code) %></th>
+		       	  </tr>
+		       <% end %>
+			   <tr>
+			     <td><%= "- " + council_priority_weight.priority_item_desc %></td>
+			     <td align="right"><%= council_priority_weight.priority_weight %></td>
+			   </tr>
+		  <% end %>
+		  
+		</table>
+	</div>
+</div>
+
+<div class="row">
+	<div class="small-10 small-offset-2 columns">
+		<ul class="inline-list">
+			<li><%= link_to 'Back', council_path(@council) %></li>
+			<li><%= link_to 'Adjust Weighting', adjust_weights_council_path(@council) %></li>
+		</ul>
+	</div>
+</div>

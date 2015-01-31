@@ -1,0 +1,50 @@
+<% if @component.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@component.errors.count, "error") %> prohibited
+      this component from being saved:</h2>
+    <ul>
+    <% @component.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_for @component do |f| %>
+  <div class="row collapse">
+  	<div class="small-3 columns">
+      <%= f.label :component_name, class: "right inline" %>
+    </div>
+	  <div class="small-9 columns">
+      <%= f.text_field :component_name %>
+	  </div>
+	</div>
+  <div class="row collapse">
+  	<div class="small-3 columns">
+      <%= f.label 'Asset type', class: "right inline" %>
+    </div>
+	  <div class="small-9 columns">
+      <%= f.collection_select(:asset_type_code, asset_type_codes, 
+	                            :system_code, :system_code_desc ) %>
+	  </div>
+	</div>
+  <div class="row collapse">
+  	<div class="small-3 columns">
+      <%= f.label :component_desc, class: "right inline" %>
+    </div>
+	  <div class="small-9 columns">
+      <%= f.text_field :component_desc %>
+	  </div>
+	</div>
+  <div class="row collapse">
+  	<div class="small-3 columns">
+      <%= f.label :default_requirement, class: "right inline" %>
+    </div>
+	  <div class="small-9 columns">
+      <%= f.text_area :default_requirement %>
+	  </div>
+	</div>
+	<div class="row collapse">
+  	<div class="small-9 small-offset-3 columns"><%= f.submit  class: "button" %></div>
+  </div>
+<% end %>

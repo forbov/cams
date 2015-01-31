@@ -1,0 +1,30 @@
+<% provide(:title, "Sign in") %>
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<h1>Sign in</h1>
+	</div>
+</div>
+
+<%= form_for(:session, url: sessions_path) do |f| %>
+	<div class="row collapse">
+	  <div class="small-3 columns">
+      <%= f.label :email, class: "right inline" %>
+	  </div>
+	  <div class="small-4 columns">
+      <%= f.text_field :email %>
+    </div>
+    <div class="small-5 columns"></div>
+  </div>
+	<div class="row collapse">
+	  <div class="small-3 columns">
+      <%= f.label :password, class: "right inline" %>
+	  </div>
+	  <div class="small-3 columns">
+      <%= f.password_field :password %>
+    </div>
+    <div class="small-6 columns"></div>
+  </div>
+  <div class="row collapse">
+  	<div class="small-9 small-offset-3 columns"><%= f.submit "Sign In", class: "button" %></div>
+  </div>
+<% end %>

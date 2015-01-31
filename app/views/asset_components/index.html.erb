@@ -1,0 +1,46 @@
+<% council  = Council.find(@asset.council_id) %>
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<h1>Asset Components</h1>
+	</div>
+</div>
+
+<div class="row">
+	<div class="small-3 columns" align="right">
+    <strong>Asset Name:</strong>
+  </div>
+  <div class="small-9 columns">
+  	<%= @asset.asset_name %>
+  </div>
+</div>
+<br/>
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<table>
+		  <tr>
+		    <th>Component Name</th>
+		    <th>Requirement</th>
+		    <th colspan="2"></th>
+		    
+		  </tr>
+		
+		  <% for asset_component in @asset_components 
+		       component = Component.find(asset_component.component_id) %>
+			   <tr>
+			     <td><%= link_to component.component_name, asset_asset_component_path(@asset, asset_component) %></td>
+			     <td><%= asset_component.requirement %></td>
+			     <td><%= link_to 'Edit', edit_asset_asset_component_path(@asset, asset_component) %></td>
+			   </tr>
+		  <% end %>
+		  
+		</table>
+	</div>
+</div>
+
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<ul class="inline-list">
+			<li><%= link_to 'Back', asset_path(@asset) %></li>
+		</ul>
+	</div>
+</div>

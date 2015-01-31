@@ -1,0 +1,58 @@
+<% report_user = User.find(@council_report.user_id) %>
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<h1>Council Report</h1>
+	</div>
+</div>
+<div class="row">
+	<div class="small-3 columns" align="right">
+	  <strong>Title:</strong>
+  </div>
+  <div class="small-9 columns">
+	  <%= @council_report.report_title %>
+  </div>
+</div>
+<br/>
+<div class="row">
+	<div class="small-3 columns" align="right">
+	  <strong>Description:</strong>
+  </div>
+  <div class="small-9 columns">
+	  <%= @council_report.report_desc %>
+  </div>
+</div>
+<br/>
+<div class="row">
+	<div class="small-3 columns" align="right">
+	  <strong>Date:</strong>
+  </div>
+  <div class="small-9 columns">
+	  <%= @council_report.report_date.to_s(:au_short_date) %>
+  </div>
+</div>
+<br/>
+<div class="row">
+	<div class="small-3 columns" align="right">
+	  <strong>User:</strong>
+  </div>
+  <div class="small-9 columns">
+	  <%= report_user.full_name %>
+	</div>
+</div>
+<br/>
+<div class="row collapse">
+ 	<div class="small-9 small-offset-2 columns">
+ 		<ul class="inline-list">
+ 			<li><%= link_to 'Back', council_reports_path %></li>
+			<li><%= link_to 'Edit', edit_council_report_path %></li>
+			<% if @council_report.report_generated %>
+			  <li><%= link_to 'Asset Assessments', council_report_asset_assessments_path(@council_report) %></li>
+			  <li><%= link_to 'Proposed Works', council_report_proposed_works_path(@council_report) %></li>
+			  <li><%= link_to 'Reports', council_report_reports_path(@council_report) %></li>
+			<% else %>
+			  <li><%= link_to 'Report Assets', council_report_report_assets_path(@council_report)%></li>
+			  <li><%= link_to 'Select Assets', select_assets_council_report_path(@council_report)%></li>
+			<% end %>
+		</ul>
+	</div>
+</div>

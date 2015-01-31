@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  council_id: 
+  asset_type_code: MyString
+
+two:
+  council_id: 
+  asset_type_code: MyString

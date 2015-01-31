@@ -1,0 +1,56 @@
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<h1>Assets for Report</h1>
+	</div>
+</div>
+<div class="row">
+ 	<div class="small-3 columns" align="right">
+    <strong>Report</strong>
+  </div>
+  <div class="small-9 columns">
+  	<%= @council_report.report_title %>
+  </div>
+</div>
+<br />
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<table>
+		  <tr>
+		    <th>Asset Name</th>
+		    <th>Asset Type</th>
+		    <th>Address</th>
+		    <th>Postcode</th>
+		    <th>State</th>
+		    <th colspan="2"></th> 
+		    
+		  </tr>
+		  <% @report_assets.each do |report_asset| 
+		  	   asset = Asset.find(report_asset.asset_id) %>
+		  
+		       <tr>
+			     <td><%= asset.asset_name %></td>
+			     <td><%= asset_type_desc(asset.asset_type_code) %></td>
+			     <td><%= asset.address.address_long %></td>
+			     <td><%= asset.address.postcode %></td>
+			     <td><%= asset.address.state_code %></td>
+			     <td><%= link_to 'Destroy', council_report_report_asset_path(@council_report, report_asset), method: :delete, 
+			                                data: { confirm: 'Are you sure?' }%></td>
+			   </tr>
+		  <% end %>
+		</table>
+	</div>
+</div>
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<ul class="inline-list">
+			<li><%= link_to 'Back', council_report_path(@council_report) %></li>
+			<li><%= link_to 'Add Asset', new_council_report_report_asset_path(@council_report) %></li>
+			<li><%= link_to 'Select Assets', select_assets_council_report_path(@council_report) %></li>
+			<li>
+				<%= form_for(:report_assets, url: {action: "generate"}) do |form| %>
+					<%= form.submit "Generate Assessments", class: "button" %>
+				<% end %>
+			</li>
+		</ul>
+	</div>
+</div>

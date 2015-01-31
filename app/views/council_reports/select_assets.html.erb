@@ -1,0 +1,53 @@
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<h1>Add Assets to Report</h1>
+	</div>
+</div>
+<div class="row">
+ 	<div class="small-3 columns" align="right">
+    <strong>Report</strong>
+  </div>
+  <div class="small-9 columns">
+  	<%= @council_report.report_title %>
+  </div>
+</div>
+<br />
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<table>
+		  <tr>
+		    <th>Asset Name</th>
+		    <th>Asset Type</th>
+		    <th>Address</th>
+		    <th>Postcode</th>
+		    <th>State</th>
+		    <th>Check to Add</th> 
+		    
+		  </tr>
+<%= form_for(:council_reports, url: {action: "save_assets"}) do |form| %>
+  <% @assets_not_in.each_with_index do |asset_not_in, index|
+    asset = Asset.find(asset_not_in.id) %>
+    <%= fields_for "assets_to_check[#{index}]", asset_not_in do |f| %>
+      <%= f.hidden_field :id, :value => asset.id %>
+      <tr>
+        <td><%= asset.asset_name %></td>
+        <td><%= asset_type_desc(asset.asset_type_code) %></td>
+        <td><%= asset.address.address_long %></td>
+        <td><%= asset.address.postcode %></td>
+        <td><%= asset.address.state_code %></td>
+        <td><%= f.check_box :add_asset %></td>
+      </tr>
+		<% end %>
+	<% end %>
+		</table>
+	</div>
+</div>
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<ul class="inline-list">
+    	<li><%= link_to 'Back', council_report_report_assets_path(@council_report) %></li>
+    	<li><%= form.submit "Add Assets", class: "button" %></li>
+   	</ul>
+  </div>
+</div>
+<% end %>

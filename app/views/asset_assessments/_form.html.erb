@@ -1,0 +1,58 @@
+<% if @asset_assessment.errors.any? %>
+  <div id="error_explanation"> 
+    <h2><%= pluralize(@asset_assessment.errors.count, "error") %> prohibited
+      this report from being saved:</h2>
+    <ul>
+    <% @asset_assessment.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+<% asset = Asset.find(@asset_assessment.asset_id)
+   priority_item = PriorityItem.find(@asset_assessment.priority_item_id)
+   item_value = PriorityItemValue.where(:priority_item => priority_item, :valid_value => @asset_assessment.asset_priority_value).take %>
+<%= form_for ([@council_report, @asset_assessment]) do |f| %>
+  <% valid_priority_values = PriorityItemValue.where(priority_item_id: @asset_assessment.priority_item_id) %>
+  <div class="row collapse">
+  	<div class="small-3 columns">
+ 	   <%= f.label 'Asset', class: "right inline" %>
+  	</div>
+  	<div class="small-9 columns">
+  		<%= f.label asset.asset_name, class: "inline" %>
+ 		</div>
+ 	</div>
+  <div class="row collapse">
+  	<div class="small-3 columns">
+ 	   <%= f.label 'Priority Category', class: "right inline" %>
+  	</div>
+  	<div class="small-9 columns">
+  		<%= f.label priority_category_desc(priority_item.priority_category_code), class: "inline" %>
+ 		</div>
+ 	</div>
+  <div class="row collapse">
+  	<div class="small-3 columns">
+ 	   <%= f.label 'Priority Item', class: "right inline" %>
+  	</div>
+  	<div class="small-9 columns">
+  		<%= f.label priority_item.priority_item_desc, class: "inline" %>
+ 		</div>
+ 	</div>
+  <div class="row collapse">
+  	<div class="small-3 columns">
+ 	   <%= f.label 'Assessed value', class: "right inline" %>
+  	</div>
+  	<div class="small-9 columns">
+  		<%= f.collection_select(:asset_priority_value, valid_priority_values, 
+      	                    	:valid_value, :display_value ) %>
+ 		</div>
+ 	</div>
+	<div class="row collapse">
+		<div class="small-1 small-offset-2 columns">
+			<ul class="inline-list">
+				<li><%= link_to 'Back', council_report_asset_assessment_path(@council_report, 1) %></li>
+			</ul>
+		</div>
+  	<div class="small-9 columns"><%= f.submit  class: "button" %></div>
+  </div>
+<% end %>

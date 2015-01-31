@@ -1,0 +1,35 @@
+<% if @council.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@council.errors.count, "error") %> prohibited
+      this council from being saved:</h2>
+    <ul>
+    <% @council.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+  
+<%= form_for @council do |f| %>
+  <div class="row collapse">
+	 	<div class="small-3 columns">
+	    <%= f.label :council_name, class: "right inline" %>
+	  </div>
+	  <div class="small-5 columns">
+	  	<%= f.text_field :council_name %>
+	  </div>
+	  <div class="small-4 columns"></div>
+	</div>
+  <%= f.fields_for :address do |builder| %>
+    <%= render 'addresses/form', :f => builder %>
+  <% end %>
+ 
+  <div class="row collapse">
+  	<div class="small-1 small-offset-2 columns">
+			<ul class="inline-list">
+				<li><%= link_to 'Back', councils_path %></li>
+			</ul>
+		</div>
+  	<div class="small-9 columns"><%= f.submit  class: "button" %></div>
+  </div>
+<% end %>

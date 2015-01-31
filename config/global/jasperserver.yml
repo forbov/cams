@@ -1,0 +1,17 @@
+development:
+  url: 'http://192.168.0.201:8080/jasperserver/'
+  username: 'jasperadmin'
+  password: 'jasperadmin'
+  report_dir: 'D:/Users/Michael/cams/reports'
+
+test:
+  url: 'http://server:port/jasperserver/'
+  username: 'username'
+  password: 'password'
+  report_dir: 'D:/Users/Michael/cams/reports'
+
+production:
+  url: 'http://server:port/jasperserver/'
+  username: 'username'
+  password: 'password'
+  report_dir: 'D:/Users/Michael/cams/reports'

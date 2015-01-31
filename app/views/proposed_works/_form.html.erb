@@ -1,0 +1,114 @@
+<% if @proposed_work.errors.any? %>
+  <div id="error_explanation"> 
+    <h2><%= pluralize(@proposed_work.errors.count, "error") %> prohibited
+      this report from being saved:</h2>
+    <ul>
+    <% @proposed_work.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+  
+<%= form_for [@council_report, @proposed_work], :html => { :multipart => true } do |f| %>
+	<% if @proposed_work.asset_component_id?
+  	asset_component = AssetComponent.find(@proposed_work.asset_component_id)
+ 	else
+ 		asset_component = @asset_component
+ 	end
+ 	asset = Asset.find(asset_component.asset_id)
+  component = Component.find(asset_component.component_id) %> 
+ 	<%= f.hidden_field :asset_component_id, :value => asset_component.id %>
+	<div class="row collapse">
+	 	<div class="small-3 columns">
+			<%= f.label "Council report", class: "right inline"%>
+	  </div>
+	  <div class="small-9 columns">
+	  	<%= f.label @council_report.report_title, class: "inline" %>
+	  </div>
+	</div>
+	<div class="row collapse">
+	 	<div class="small-3 columns">
+			<%= f.label "Asset name", class: "right inline"%>
+	  </div>
+	  <div class="small-9 columns">
+	  	<%= f.label asset.asset_name, class: "inline" %>
+	  </div>
+	</div>
+	<div class="row collapse">
+	 	<div class="small-3 columns">
+			<%= f.label "Component name", class: "right inline"%>
+	  </div>
+	  <div class="small-9 columns">
+	  	<%= f.label component.component_name, class: "inline" %>
+	  </div>
+	</div>
+  <div class="row collapse">
+	 	<div class="small-3 columns">
+	    <%= f.label :proposed_work, class: "right inline" %>
+	  </div>
+	  <div class="small-7 columns">
+	  	<%= f.text_field :proposed_work %>
+	  </div>
+	  <div class="small-2 columns"></div>
+	</div>
+
+  <div class="row collapse">
+	 	<div class="small-3 columns">
+	    <%= f.label 'Priority Level', class: "right inline" %>
+	  </div>
+	  <div class="small-9 columns">
+	  	<%= f.collection_select(:priority_level_code, priority_level_codes, 
+                              :system_code, :system_code_desc, :prompt => true ) %>
+	  </div>
+	</div>
+  
+	<div class="row collapse">
+	 	<div class="small-3 columns">
+	    <%= f.label :work_cost, class: "right inline" %>
+	  </div>
+	  <div class="small-3 columns">
+	  	<%= f.number_field :work_cost, style: "text-align: right" %>
+	  </div>
+	  <div class="small-6 columns"></div>
+	</div>
+	
+	<div class="row collapse">
+	 	<div class="small-3 columns">
+	    <%= f.label 'Cost type', class: "right inline" %>
+	  </div>
+	  <div class="small-9 columns">
+	  	<%= f.collection_select(:cost_type_code, cost_type_codes, 
+                              :system_code, :system_code_desc, :prompt => true ) %>
+	  </div>
+	</div>
+	
+	<div class="row collapse">
+	 	<div class="small-3 columns">
+	    <%= f.label 'Photo', class: "right inline" %>
+	  </div>
+	  <div class="small-1 columns">
+	  	<%= image_tag @proposed_work.photo.url(:thumb) %>
+	  </div>
+	  <div class="small-4 columns">
+		  <div class="row">
+			  <!-- fileinputs invokes javascript for a total of small-4 columns-->
+			  <div class="fileinputs"> 
+			  	<%= f.file_field :photo, class: "file" %>
+			  </div>	
+		  </div>
+		 </div>
+	  <div class="small-4 columns"></div>
+	</div>
+	<br/>
+  <div class="row collapse">
+  	<div class="small-1 small-offset-2 columns">
+			<ul class="inline-list">
+				<li><%= link_to 'Back', council_report_proposed_work_path(@council_report, asset_component.asset_id) %></li>
+			</ul>
+		</div>
+  	<div class="small-9 columns">
+  		<%= f.submit  class: "button" %>
+  	</div>
+  </div>
+<% end %>

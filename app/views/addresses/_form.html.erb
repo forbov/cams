@@ -1,0 +1,47 @@
+<div class="row collapse">
+	<div class="small-3 columns">
+    <%= f.label :address_line_1, class: "right inline" %>
+  </div>
+  <div class="small-6 columns">
+    <%= f.text_field :address_line_1 %>
+  </div>
+  <div class="small-3 columns"></div>
+</div>
+<div class="row collapse">
+	<div class="small-3 columns">
+    <%= f.label :address_line_2, class: "right inline" %>
+  </div>
+  <div class="small-6 columns">
+    <%= f.text_field :address_line_2 %>
+  </div>
+  <div class="small-3 columns"></div>
+</div>
+<div class="row collapse">
+	<div class="small-3 columns">
+    <%= f.label :city, class: "right inline" %>
+  </div>
+  <div class="small-4 columns">
+    <%= f.text_field :city %>
+  </div>
+  <div class="small-5 columns"></div>
+</div>
+<div class="row collapse">
+	<div class="small-3 columns">
+    <%= f.label :postcode, class: "right inline" %>
+  </div>
+  <div class="small-2 columns">
+    <%= f.text_field :postcode, maxlength: "4" %>
+  </div>
+  <div class="small-7 columns"></div>
+</div>
+<div class="row collapse">
+	<div class="small-3 columns">
+    <%= f.label 'State', class: "right inline" %>
+  </div>
+  <div class="small-6 columns">
+    <%= f.collection_select :state_code, state_codes, 
+      										  :system_code, :system_code_desc, :prompt => true %>
+
+  </div>
+  <div class="small-3 columns"></div>
+</div>

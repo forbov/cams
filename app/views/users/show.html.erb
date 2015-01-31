@@ -1,0 +1,68 @@
+<% provide(:title, @user.full_name) %>
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+    <h1>
+        <%= gravatar_for @user %>
+        <%= @user.first_name + ' ' + @user.last_name %>
+    </h1>
+  </div>
+</div>
+<div class="row">
+	<div class="small-3 columns" align="right">
+	  <strong>Email:</strong>
+  </div>
+  <div class="small-9 columns">
+	  <%= @user.email %>
+  </div>
+</div>
+<br/>
+<div class="row">
+	<div class="small-3 columns" align="right">
+  	<strong>User Role:</strong>
+  </div>
+  <div class="small-9 columns">
+	  <%= user_role_desc(@user.user_role_code) %>
+  </div>
+</div>
+<br/>
+<div class="row">
+	<div class="small-3 columns" align="right">
+	  <strong>Council:</strong>
+  </div>
+  <div class="small-9 columns">
+	  <% if @user.council_id?
+  	  council = Council.find(@user.council_id) %>
+  		<%= council.council_name %>
+  	<% else %>
+    	None
+  	<% end %>
+  </div>
+</div>
+<br/>
+<div class="row">
+	<div class="small-3 columns" align="right">
+	  <strong>Name:</strong>
+  </div>
+  <div class="small-9 columns">
+	  <%= @user.first_name + ' ' + @user.last_name %>
+  </div>
+</div>
+<br/>
+<div class="row">
+	<div class="small-3 columns" align="right">
+	  <strong>Contact Phone:</strong>
+  </div>
+  <div class="small-9 columns">
+	  <%= @user.contact_phone %>
+  </div>
+</div>
+<br/>
+<div class="row collapse">
+	<div class="small-10 small-offset-2 columns">
+		<ul class="inline-list">
+			<li><%= link_to 'Back', users_path %></li>
+			<li><%= link_to 'Edit', edit_user_path %></li>
+		</ul>
+	</div>
+</div>
+

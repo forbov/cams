@@ -1,0 +1,41 @@
+<% component = Component.find(@asset_component.component_id) %>
+<div class="row">
+	<div class="small-11 large-offset-1 columns">
+		<h1>Component</h1>
+	</div>
+</div>
+<div class="row">
+	<div class="small-3 columns" align="right">
+    <strong>Asset Name:</strong>
+  </div>
+  <div class="small-9 columns">
+  	<%= @asset.asset_name %>
+  </div>
+</div>
+<br/>
+<div class="row">
+	<div class="small-3 columns" align="right">
+	  <strong>Component Name:</strong>
+  </div>
+  <div class="small-9 columns">
+	  <%= component.component_name %>
+  </div>
+</div>
+<br/>
+<div class="row">
+	<div class="small-3 columns" align="right">
+  	<strong>Requirement:</strong>
+  </div>
+  <div class="small-9 columns">
+	  <%= @asset_component.requirement %>
+	</div>
+</div>
+<br/>
+<div class="row">
+	<div class="small-10 small-offset-2 columns">
+		<ul class="inline-list">
+			<li><%= link_to 'Back', asset_asset_components_path %></li>
+			<li><%= link_to 'Edit', edit_asset_asset_component_path %></li>
+		</ul>
+	</div>
+</div>
