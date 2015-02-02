@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Cams Portrait" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4bf793bf-0da4-4060-b40b-99a1c8fcee65">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="732"/>
+	<variable name="REPORT_TITLE" class="java.lang.String">
+		<initialValueExpression><![CDATA["Report Title Please"]]></initialValueExpression>
+	</variable>
+	<group name="Group1">
+		<groupHeader>
+			<band height="27">
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="20" uuid="0026084e-05dd-49b9-ac46-7b1552e7ba39"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[G1Label]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="100" y="0" width="455" height="20" uuid="a1f1ac1c-95ba-4de8-bf7e-0b2408ca00df"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["G1Field"]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="5" y="22" width="545" height="1" uuid="c08b9171-d131-4d59-96bd-aee86796f451"/>
+					<graphicElement>
+						<pen lineWidth="2.0" lineStyle="Solid" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="24"/>
+		</groupFooter>
+	</group>
+	<group name="Group2">
+		<groupHeader>
+			<band height="26">
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="20" uuid="d75f2603-ddd3-4796-942a-1cadaa70ffb4"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[G2Label]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="100" y="0" width="455" height="20" uuid="88e7afbd-b453-497c-b58b-88c4b20307f5"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["G2Field"]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="5" y="22" width="545" height="1" uuid="737c2a22-3079-4ed4-a8c9-7f0aa262d4f4"/>
+					<graphicElement>
+						<pen lineWidth="1.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="24"/>
+		</groupFooter>
+	</group>
+	<group name="Group3">
+		<groupHeader>
+			<band height="27">
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="20" uuid="14bc68da-1d77-432c-95c2-8d09a0c97cd1"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[G3Label]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="100" y="0" width="455" height="20" uuid="2f438cd2-a9d6-4541-994f-a74d119850c9"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA["G3Field"]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="5" y="22" width="545" height="1" uuid="f5d82638-4cb3-4d80-aff6-cae196b8e0c0"/>
+					<graphicElement>
+						<pen lineWidth="1.25" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="24"/>
+		</groupFooter>
+	</group>
+	<group name="Group4">
+		<groupHeader>
+			<band height="27">
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="20" uuid="d223e3d2-dde3-4d22-9b6f-80b1f876af52"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[G4Label]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="100" y="0" width="455" height="20" uuid="f82031e6-fe84-4275-bd9d-e15693e1842e"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["G4Field"]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="5" y="22" width="545" height="1" uuid="3ae854de-76a1-4d21-bddc-a10871b2c0bf"/>
+					<graphicElement>
+						<pen lineColor="#999999"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="24"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band height="750">
+			<image>
+				<reportElement x="215" y="414" width="340" height="336" uuid="c69b2425-153d-487b-aa53-423d0982e4a3"/>
+				<imageExpression><![CDATA["D:\\Users\\Michael\\Documents\\Aptana Workspace\\cam\\app\\assets\\images\\cams_watermark.png"]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band height="62">
+			<image>
+				<reportElement x="0" y="0" width="555" height="62" uuid="5dedc03e-a97f-4a6f-a915-b2eb6d798378"/>
+				<imageExpression><![CDATA["D:\\Users\\Michael\\Documents\\Aptana Workspace\\cam\\app\\assets\\images\\cams_header_portrait.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="117" y="38" width="347" height="20" forecolor="#FFFFFF" uuid="28126a33-c67a-4865-9b9b-146841cfd5c1"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_TITLE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="8d324440-cddf-43c5-b3cc-31510b6c14ef"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="b67f768d-dac1-475c-b746-ffd15cd35369"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DetailLabel]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="b40d2abb-96bb-4540-8b3c-7b946d55c91c"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="78521bd0-5d3c-4d04-a222-f4b1355e9003"/>
+				<textFieldExpression><![CDATA["DetailField"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="d8878386-1093-4217-b016-4783ce329582"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="15f41f08-11b4-4cf9-abf3-822cc864f443"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13" uuid="2f10ed6f-31b9-4b6c-83a8-2831141574bd"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>
