@@ -17,7 +17,7 @@ class CouncilReportsController < ApplicationController
     @council_report.user_id = @current_user.id
     
     if @council_report.save
-      create_asset_assessments(@council_report)
+      #create_asset_assessments(@council_report)
       flash[:success] = @council_report.report_title + " created."
       redirect_to council_report_path(@council_report)
     else
