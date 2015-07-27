@@ -37,6 +37,12 @@ Rails.application.routes.draw do
       member do
         get 'proposed_works_summary'
       end
+      member do
+        get 'weighted_proposed_works'
+      end
+      member do
+        get 'bollocks'
+      end
     end
     resources :asset_assessments, only: [:show, :index, :edit, :update]
     resources :proposed_works do

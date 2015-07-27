@@ -9,24 +9,34 @@ class ReportsController < ApplicationController
                   '?council_report_id=' + report.id.to_s + 
                   '&j_username=' + Global.jasperserver.username + '&j_password=' + Global.jasperserver.password
     
+    
     begin
       response = RestClient.get report_url
     rescue => e
       flash[:alert] = "Reports server request failed. Error: " + e.response.code.to_s
       redirect_to council_report_reports_path(report)
     end
-    
-    datetime = DateTime.current
-    FileUtils.mkdir_p Global.jasperserver.report_dir
-    filename = Global.jasperserver.report_dir + '/' + report_name + '_' + report.id.to_s + '_' + datetime.to_s(:number) + '.pdf' 
-    f = File.new(filename, 'wb')
-    f.write(response.body)
-    f.close
-    send_file(filename, :type => 'application/pdf', :disposition => 'inline')
+    send_data response.body, filename: report_name + ".pdf", disposition: "attachment", :content_type => 'application/pdf'
   end
 
   def proposed_works_summary
     @council_report = CouncilReport.find(params[:council_report_id])
     run_report('proposed_works_summary', @council_report)
+  end
+
+  def weighted_proposed_works
+    @council_report = CouncilReport.find(params[:council_report_id])
+    run_report('weighted_proposed_works', @council_report)
+  end
+  
+  def bollocks
+    report_url = 'http://cbcdn1.gp-static.com/uploads/product_manual/file/490/UM_H4Black_ENG_REVD_WEB.pdf'
+    begin
+      response = RestClient.get report_url
+    rescue => e
+      flash[:alert] = "Reports server request failed. Error: " + e.response.code.to_s
+      redirect_to council_report_reports_path(report)
+    end
+    send_data response.body, filename: "bollocks.pdf", disposition: "attachment", :content_type => 'application/pdf'
   end
 end
