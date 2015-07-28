@@ -1,11 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Proposed Works" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4bf793bf-0da4-4060-b40b-99a1c8fcee65">
-	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="481"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="council_report_id" class="java.lang.String"/>
-	<queryString language="SQL">
-		<![CDATA[select crp.report_title,        crp.report_desc,        crp.report_date,        cnl.council_name,        ast.asset_name,        aty.system_code_desc as asset_type,        ifnull(sum(low_renew.work_cost),0) as low_renew_work_cost,        ifnull(sum(low_upgrd.work_cost),0) as low_upgrd_work_cost,        ifnull(sum(med_renew.work_cost),0) as med_renew_work_cost,        ifnull(sum(med_upgrd.work_cost),0) as med_upgrd_work_cost,        ifnull(sum(hgh_renew.work_cost),0) as hgh_renew_work_cost,        ifnull(sum(hgh_upgrd.work_cost),0) as hgh_upgrd_work_cost from council_reports  crp inner join councils         cnl on cnl.id = crp.council_id inner join report_assets    rpa on rpa.council_report_id = crp.id inner join assets           ast on ast.id = rpa.asset_id inner join asset_components acp on acp.asset_id = ast.id inner join system_codes     aty on aty.system_code_type = 'ASSET_TYPE'                                and aty.system_code = ast.asset_type_code left join proposed_works low_renew on low_renew.council_report_id = crp.id                                   and low_renew.asset_component_id = acp.id                                   and low_renew.priority_level_code = 'LOW'                                   and low_renew.cost_type_code = 'RENEWAL' left join proposed_works low_upgrd on low_upgrd.council_report_id = crp.id                                   and low_upgrd.asset_component_id = acp.id                                   and low_upgrd.priority_level_code = 'LOW'                                   and low_upgrd.cost_type_code = 'UPGRADE' left join proposed_works med_renew on med_renew.council_report_id = crp.id                                   and med_renew.asset_component_id = acp.id                                   and med_renew.priority_level_code = 'MEDIUM'                                   and med_renew.cost_type_code = 'RENEWAL' left join proposed_works med_upgrd on med_upgrd.council_report_id = crp.id                                   and med_upgrd.asset_component_id = acp.id                                   and med_upgrd.priority_level_code = 'MEDIUM'                                   and med_upgrd.cost_type_code = 'UPGRADE' left join proposed_works hgh_renew on hgh_renew.council_report_id = crp.id                                   and hgh_renew.asset_component_id = acp.id                                   and hgh_renew.priority_level_code = 'HIGH'                                   and hgh_renew.cost_type_code = 'RENEWAL' left join proposed_works hgh_upgrd on hgh_upgrd.council_report_id = crp.id                                   and hgh_upgrd.asset_component_id = acp.id                                   and hgh_upgrd.priority_level_code = 'HIGH'                                   and hgh_upgrd.cost_type_code = 'UPGRADE' where crp.id = $P{council_report_id} group by crp.report_title,        cnl.council_name,        ast.asset_name]]>
+	<queryString>
+		<![CDATA[select crp.report_title,
+        crp.report_desc,
+        crp.report_date,
+        cnl.council_name,
+        ast.asset_name,
+        aty.system_code_desc as asset_type,
+        ifnull(sum(low_renew.work_cost),0) as low_renew_work_cost,
+        ifnull(sum(low_upgrd.work_cost),0) as low_upgrd_work_cost,
+        ifnull(sum(low_new.work_cost),0) as low_new_work_cost,
+        ifnull(sum(med_renew.work_cost),0) as med_renew_work_cost,
+        ifnull(sum(med_upgrd.work_cost),0) as med_upgrd_work_cost,
+        ifnull(sum(med_new.work_cost),0) as med_new_work_cost,
+        ifnull(sum(hgh_renew.work_cost),0) as hgh_renew_work_cost,
+        ifnull(sum(hgh_upgrd.work_cost),0) as hgh_upgrd_work_cost,
+        ifnull(sum(hgh_new.work_cost),0) as hgh_new_work_cost
+from council_reports  crp
+inner join councils cnl on cnl.id = crp.council_id
+inner join report_assets rpa on rpa.council_report_id = crp.id
+inner join assets ast on ast.id = rpa.asset_id
+inner join asset_components acp on acp.asset_id = ast.id
+inner join system_codes aty on aty.system_code_type = 'ASSET_TYPE'
+  and aty.system_code = ast.asset_type_code
+left join proposed_works low_renew on low_renew.council_report_id = crp.id
+  and low_renew.asset_component_id = acp.id
+  and low_renew.priority_level_code = 'LOW'
+  and low_renew.cost_type_code = 'RENEWAL'
+left join proposed_works low_upgrd on low_upgrd.council_report_id = crp.id
+  and low_upgrd.asset_component_id = acp.id
+  and low_upgrd.priority_level_code = 'LOW'
+  and low_upgrd.cost_type_code = 'UPGRADE'
+left join proposed_works low_new on low_new.council_report_id = crp.id
+  and low_new.asset_component_id = acp.id
+  and low_new.priority_level_code = 'LOW'
+  and low_new.cost_type_code = 'NEW'
+left join proposed_works med_renew on med_renew.council_report_id = crp.id
+  and med_renew.asset_component_id = acp.id
+  and med_renew.priority_level_code = 'MEDIUM'
+  and med_renew.cost_type_code = 'RENEWAL'
+left join proposed_works med_upgrd on med_upgrd.council_report_id = crp.id
+  and med_upgrd.asset_component_id = acp.id
+  and med_upgrd.priority_level_code = 'MEDIUM'
+  and med_upgrd.cost_type_code = 'UPGRADE'
+left join proposed_works med_new on med_new.council_report_id = crp.id
+  and med_new.asset_component_id = acp.id
+  and med_new.priority_level_code = 'MEDIUM'
+  and med_new.cost_type_code = 'NEW'
+left join proposed_works hgh_renew on hgh_renew.council_report_id = crp.id
+  and hgh_renew.asset_component_id = acp.id
+  and hgh_renew.priority_level_code = 'HIGH'
+  and hgh_renew.cost_type_code = 'RENEWAL'
+left join proposed_works hgh_upgrd on hgh_upgrd.council_report_id = crp.id
+  and hgh_upgrd.asset_component_id = acp.id
+  and hgh_upgrd.priority_level_code = 'HIGH'
+  and hgh_upgrd.cost_type_code = 'UPGRADE'
+left join proposed_works hgh_new on hgh_new.council_report_id = crp.id
+  and hgh_new.asset_component_id = acp.id
+  and hgh_new.priority_level_code = 'HIGH'
+  and hgh_new.cost_type_code = 'NEW'
+where crp.id = $P{council_report_id}
+group by crp.report_title,
+         cnl.council_name,
+         ast.asset_name]]>
 	</queryString>
 	<field name="report_title" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -25,10 +86,13 @@
 	<field name="asset_type" class="java.lang.String"/>
 	<field name="low_renew_work_cost" class="java.math.BigDecimal"/>
 	<field name="low_upgrd_work_cost" class="java.math.BigDecimal"/>
+	<field name="low_new_work_cost" class="java.math.BigDecimal"/>
 	<field name="med_renew_work_cost" class="java.math.BigDecimal"/>
 	<field name="med_upgrd_work_cost" class="java.math.BigDecimal"/>
+	<field name="med_new_work_cost" class="java.math.BigDecimal"/>
 	<field name="hgh_renew_work_cost" class="java.math.BigDecimal"/>
 	<field name="hgh_upgrd_work_cost" class="java.math.BigDecimal"/>
+	<field name="hgh_new_work_cost" class="java.math.BigDecimal"/>
 	<variable name="REPORT_TITLE" class="java.lang.String">
 		<initialValueExpression><![CDATA["Proposed Works Summary"]]></initialValueExpression>
 	</variable>
@@ -40,7 +104,7 @@
 		<variableExpression><![CDATA[$F{low_upgrd_work_cost}]]></variableExpression>
 	</variable>
 	<variable name="low_group_total" class="java.math.BigDecimal" resetType="Group" resetGroup="asset_type" calculation="Sum">
-		<variableExpression><![CDATA[$F{low_renew_work_cost} + $F{low_upgrd_work_cost}]]></variableExpression>
+		<variableExpression><![CDATA[$F{low_renew_work_cost} + $F{low_upgrd_work_cost} + $F{low_new_work_cost}]]></variableExpression>
 	</variable>
 	<variable name="med_renew_group_total" class="java.math.BigDecimal" resetType="Group" resetGroup="asset_type" calculation="Sum">
 		<variableExpression><![CDATA[$F{med_renew_work_cost}]]></variableExpression>
@@ -49,7 +113,7 @@
 		<variableExpression><![CDATA[$F{med_upgrd_work_cost}]]></variableExpression>
 	</variable>
 	<variable name="med_group_total" class="java.math.BigDecimal" resetType="Group" resetGroup="asset_type" calculation="Sum">
-		<variableExpression><![CDATA[$F{med_renew_work_cost} + $F{med_upgrd_work_cost}]]></variableExpression>
+		<variableExpression><![CDATA[$F{med_renew_work_cost} + $F{med_upgrd_work_cost} + $F{med_new_work_cost}]]></variableExpression>
 	</variable>
 	<variable name="hgh_renew_group_total" class="java.math.BigDecimal" resetType="Group" resetGroup="asset_type" calculation="Sum">
 		<variableExpression><![CDATA[$F{hgh_renew_work_cost}]]></variableExpression>
@@ -58,7 +122,7 @@
 		<variableExpression><![CDATA[$F{hgh_upgrd_work_cost}]]></variableExpression>
 	</variable>
 	<variable name="hgh_group_total" class="java.math.BigDecimal" resetType="Group" resetGroup="asset_type" calculation="Sum">
-		<variableExpression><![CDATA[$F{hgh_renew_work_cost} + $F{hgh_upgrd_work_cost}]]></variableExpression>
+		<variableExpression><![CDATA[$F{hgh_renew_work_cost} + $F{hgh_upgrd_work_cost} + $F{hgh_new_work_cost}]]></variableExpression>
 	</variable>
 	<variable name="low_renew_total" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{low_renew_work_cost}]]></variableExpression>
@@ -68,7 +132,7 @@
 		<variableExpression><![CDATA[$F{low_upgrd_work_cost}]]></variableExpression>
 	</variable>
 	<variable name="low_total" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{low_renew_work_cost} + $F{low_upgrd_work_cost}]]></variableExpression>
+		<variableExpression><![CDATA[$F{low_renew_work_cost} + $F{low_upgrd_work_cost} + $F{low_new_work_cost}]]></variableExpression>
 	</variable>
 	<variable name="med_renew_total" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{med_renew_work_cost}]]></variableExpression>
@@ -77,7 +141,7 @@
 		<variableExpression><![CDATA[$F{med_upgrd_work_cost}]]></variableExpression>
 	</variable>
 	<variable name="med_total" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{med_renew_work_cost} + $F{med_upgrd_work_cost}]]></variableExpression>
+		<variableExpression><![CDATA[$F{med_renew_work_cost} + $F{med_upgrd_work_cost} + $F{med_new_work_cost}]]></variableExpression>
 	</variable>
 	<variable name="hgh_renew_total" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{hgh_renew_work_cost}]]></variableExpression>
@@ -86,13 +150,32 @@
 		<variableExpression><![CDATA[$F{hgh_upgrd_work_cost}]]></variableExpression>
 	</variable>
 	<variable name="hgh_total" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{hgh_renew_work_cost} + $F{hgh_upgrd_work_cost}]]></variableExpression>
+		<variableExpression><![CDATA[$F{hgh_renew_work_cost} + $F{hgh_upgrd_work_cost} + $F{hgh_new_work_cost}]]></variableExpression>
 	</variable>
 	<variable name="asset_type_label" class="java.lang.String" resetType="Group" resetGroup="asset_type">
 		<variableExpression><![CDATA[$F{asset_type} + " Totals"]]></variableExpression>
 	</variable>
 	<variable name="asset_type_header" class="java.lang.String" resetType="Group" resetGroup="asset_type">
 		<variableExpression><![CDATA[$F{asset_type} + " Assets"]]></variableExpression>
+	</variable>
+	<variable name="low_new_group_total" class="java.math.BigDecimal" resetType="Group" resetGroup="asset_type" calculation="Sum">
+		<variableExpression><![CDATA[$F{low_new_work_cost}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="med_new_group_total" class="java.math.BigDecimal" resetType="Group" resetGroup="asset_type" calculation="Sum">
+		<variableExpression><![CDATA[$F{med_new_work_cost}]]></variableExpression>
+	</variable>
+	<variable name="hgh_new_group_total" class="java.math.BigDecimal" resetType="Group" resetGroup="asset_type" calculation="Sum">
+		<variableExpression><![CDATA[$F{hgh_new_work_cost}]]></variableExpression>
+	</variable>
+	<variable name="low_new_total" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{low_new_work_cost}]]></variableExpression>
+	</variable>
+	<variable name="med_new_total" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{med_new_work_cost}]]></variableExpression>
+	</variable>
+	<variable name="hgh_new_total" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{hgh_new_work_cost}]]></variableExpression>
 	</variable>
 	<group name="asset_type">
 		<groupExpression><![CDATA[$F{asset_type}]]></groupExpression>
@@ -114,97 +197,125 @@
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="24">
+			<band height="18">
 				<textField pattern="¤ #,##0">
-					<reportElement x="145" y="4" width="52" height="20" uuid="882c9e57-d73f-4668-b784-42b6adf43f9e"/>
+					<reportElement x="107" y="2" width="44" height="15" uuid="882c9e57-d73f-4668-b784-42b6adf43f9e"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{low_renew_group_total}]]></textFieldExpression>
 				</textField>
 				<textField pattern="¤ #,##0">
-					<reportElement x="198" y="4" width="52" height="20" uuid="3cdff790-0727-484c-99fe-ec4ded95444d"/>
+					<reportElement x="150" y="2" width="44" height="15" uuid="3cdff790-0727-484c-99fe-ec4ded95444d"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{low_upgrd_group_total}]]></textFieldExpression>
 				</textField>
 				<textField pattern="¤ #,##0">
-					<reportElement x="251" y="4" width="52" height="20" uuid="846ce84b-369b-4e51-ad00-050642715ebd"/>
+					<reportElement x="236" y="2" width="44" height="15" uuid="846ce84b-369b-4e51-ad00-050642715ebd"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{low_group_total}]]></textFieldExpression>
 				</textField>
 				<textField pattern="¤ #,##0">
-					<reportElement x="412" y="4" width="52" height="20" uuid="8089140a-4302-464a-bda4-9f627cf9b4bd"/>
+					<reportElement x="410" y="2" width="44" height="15" uuid="8089140a-4302-464a-bda4-9f627cf9b4bd"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{med_group_total}]]></textFieldExpression>
 				</textField>
 				<textField pattern="¤ #,##0">
-					<reportElement x="359" y="4" width="52" height="20" uuid="7c157d23-7d18-4109-be23-d0bc41850dc4"/>
+					<reportElement x="324" y="2" width="44" height="15" uuid="7c157d23-7d18-4109-be23-d0bc41850dc4"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{med_upgrd_group_total}]]></textFieldExpression>
 				</textField>
 				<textField pattern="¤ #,##0">
-					<reportElement x="306" y="4" width="52" height="20" uuid="01fdcf34-ab7e-4739-9bb2-e3ed209638c4"/>
+					<reportElement x="281" y="2" width="44" height="15" uuid="01fdcf34-ab7e-4739-9bb2-e3ed209638c4"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{med_renew_group_total}]]></textFieldExpression>
 				</textField>
 				<textField pattern="¤ #,##0">
-					<reportElement x="573" y="4" width="52" height="20" uuid="e6d856bb-2514-4d7f-855f-c1843254808e"/>
+					<reportElement x="584" y="2" width="44" height="15" uuid="e6d856bb-2514-4d7f-855f-c1843254808e"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{hgh_group_total}]]></textFieldExpression>
 				</textField>
 				<textField pattern="¤ #,##0">
-					<reportElement x="521" y="4" width="52" height="20" uuid="b22e3b38-a06f-40ee-9514-712d1234a1dc"/>
+					<reportElement x="498" y="2" width="44" height="15" uuid="b22e3b38-a06f-40ee-9514-712d1234a1dc"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{hgh_upgrd_group_total}]]></textFieldExpression>
 				</textField>
 				<textField pattern="¤ #,##0">
-					<reportElement x="468" y="4" width="52" height="20" uuid="f4f33b39-a75a-40ac-883a-e8495e8930ef"/>
+					<reportElement x="455" y="2" width="44" height="15" uuid="f4f33b39-a75a-40ac-883a-e8495e8930ef"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{hgh_renew_group_total}]]></textFieldExpression>
 				</textField>
 				<textField pattern="¤ #,##0">
-					<reportElement x="735" y="4" width="52" height="20" uuid="39f79010-016c-4b1c-b981-7f3d2ee62a3e"/>
+					<reportElement x="758" y="2" width="44" height="15" uuid="39f79010-016c-4b1c-b981-7f3d2ee62a3e"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{low_group_total} + $V{med_group_total} + $V{hgh_group_total}]]></textFieldExpression>
 				</textField>
 				<textField pattern="¤ #,##0">
-					<reportElement x="682" y="4" width="52" height="20" uuid="c11e59b6-cf06-400f-8d50-181c4aee74b0"/>
+					<reportElement x="672" y="2" width="44" height="15" uuid="c11e59b6-cf06-400f-8d50-181c4aee74b0"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{low_upgrd_group_total} + $V{med_upgrd_group_total} + $V{hgh_upgrd_group_total}]]></textFieldExpression>
 				</textField>
 				<textField pattern="¤ #,##0">
-					<reportElement x="629" y="4" width="52" height="20" uuid="bdddf6fa-eccf-454a-a018-8916bbdceafd"/>
+					<reportElement x="629" y="2" width="44" height="15" uuid="bdddf6fa-eccf-454a-a018-8916bbdceafd"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{low_renew_group_total} + $V{med_renew_group_total} + $V{hgh_renew_group_total}]]></textFieldExpression>
 				</textField>
 				<textField pattern="">
-					<reportElement x="8" y="4" width="137" height="20" uuid="8c161bcc-10dc-40e2-a8d3-8fdb758a29da"/>
+					<reportElement x="2" y="2" width="104" height="15" uuid="8c161bcc-10dc-40e2-a8d3-8fdb758a29da"/>
 					<textElement textAlignment="Left">
 						<font size="8" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{asset_type_label}]]></textFieldExpression>
+				</textField>
+				<textField pattern="¤ #,##0">
+					<reportElement x="193" y="2" width="44" height="15" uuid="b1e2ca58-92f8-4e70-a7ca-a05b2e710c56"/>
+					<textElement textAlignment="Right">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{low_new_group_total}]]></textFieldExpression>
+				</textField>
+				<textField pattern="¤ #,##0">
+					<reportElement x="367" y="2" width="44" height="15" uuid="8a0b52d9-1022-4916-ae06-89dba387bc65"/>
+					<textElement textAlignment="Right">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{med_new_group_total}]]></textFieldExpression>
+				</textField>
+				<textField pattern="¤ #,##0">
+					<reportElement x="541" y="2" width="44" height="15" uuid="b89ecc50-4709-48e0-9d20-4eaff035b397"/>
+					<textElement textAlignment="Right">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{hgh_new_group_total}]]></textFieldExpression>
+				</textField>
+				<textField pattern="¤ #,##0">
+					<reportElement x="715" y="2" width="44" height="15" uuid="54ae2a60-5815-48bf-91e4-fef2042c3221"/>
+					<textElement textAlignment="Right">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{low_new_group_total} + $V{med_new_group_total} + $V{hgh_new_group_total}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -213,7 +324,7 @@
 		<band height="500">
 			<image>
 				<reportElement x="462" y="164" width="340" height="336" uuid="80d73b1d-d7f4-4b40-a857-3320a0ee4f7c"/>
-				<imageExpression><![CDATA["repo:cams_watermark.png"]]></imageExpression>
+				<imageExpression><![CDATA["cams_watermark.png"]]></imageExpression>
 			</image>
 		</band>
 	</background>
@@ -221,7 +332,7 @@
 		<band height="62">
 			<image>
 				<reportElement x="0" y="0" width="802" height="62" uuid="653d5879-40f5-4bac-bc23-3c8cd04321bb"/>
-				<imageExpression><![CDATA["repo:cams_header_landscape.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["cams_header_landscape.jpg"]]></imageExpression>
 			</image>
 			<textField>
 				<reportElement x="225" y="38" width="347" height="20" forecolor="#FFFFFF" uuid="28126a33-c67a-4865-9b9b-146841cfd5c1"/>
@@ -262,223 +373,279 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="50">
+		<band height="40">
 			<line>
-				<reportElement x="5" y="45" width="792" height="1" forecolor="#666666" uuid="8d324440-cddf-43c5-b3cc-31510b6c14ef"/>
+				<reportElement x="5" y="38" width="792" height="1" forecolor="#666666" uuid="8d324440-cddf-43c5-b3cc-31510b6c14ef"/>
 			</line>
 			<staticText>
-				<reportElement x="7" y="26" width="72" height="20" uuid="516e96b1-ebf3-423a-be1d-378e69b21c83"/>
+				<reportElement x="2" y="18" width="72" height="20" uuid="516e96b1-ebf3-423a-be1d-378e69b21c83"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Asset]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="146" y="26" width="52" height="20" uuid="e7bc7b00-7f69-4740-818a-b30aa7959b6b"/>
+				<reportElement x="107" y="22" width="44" height="16" uuid="e7bc7b00-7f69-4740-818a-b30aa7959b6b"/>
 				<textElement textAlignment="Right">
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Renew]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="199" y="26" width="52" height="20" uuid="7d5ca005-e523-4841-9b30-3dfd86ef488b"/>
+				<reportElement x="150" y="22" width="44" height="16" uuid="7d5ca005-e523-4841-9b30-3dfd86ef488b"/>
 				<textElement textAlignment="Right">
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Upgrade]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="189" y="6" width="72" height="20" uuid="0cfb10d5-fff6-4ab0-a687-4e450607135f"/>
+				<reportElement x="107" y="3" width="173" height="20" uuid="0cfb10d5-fff6-4ab0-a687-4e450607135f"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Low]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="252" y="26" width="52" height="20" uuid="873e6276-2bdd-48fd-a72d-363de5c7d4a8"/>
+				<reportElement x="236" y="22" width="44" height="16" uuid="873e6276-2bdd-48fd-a72d-363de5c7d4a8"/>
 				<textElement textAlignment="Right">
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="412" y="26" width="52" height="20" uuid="80fe84b8-c1f5-49e5-9313-ea61d0accc84"/>
+				<reportElement x="410" y="22" width="44" height="16" uuid="80fe84b8-c1f5-49e5-9313-ea61d0accc84"/>
 				<textElement textAlignment="Right">
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="359" y="26" width="52" height="20" uuid="e6cf62a6-efbe-4fe4-8e5d-ae40a5fe114d"/>
+				<reportElement x="324" y="22" width="44" height="16" uuid="e6cf62a6-efbe-4fe4-8e5d-ae40a5fe114d"/>
 				<textElement textAlignment="Right">
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Upgrade]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="352" y="7" width="72" height="20" uuid="53101e32-9768-4a9b-ab95-1d75a2992e6d"/>
+				<reportElement x="281" y="3" width="173" height="20" uuid="53101e32-9768-4a9b-ab95-1d75a2992e6d"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Medium]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="306" y="26" width="52" height="20" uuid="c97328fc-b92b-4e0f-a351-0a87c9fffa78"/>
+				<reportElement x="281" y="22" width="44" height="16" uuid="c97328fc-b92b-4e0f-a351-0a87c9fffa78"/>
 				<textElement textAlignment="Right">
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Renew]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="572" y="26" width="52" height="20" uuid="fb491be3-9861-44f5-893a-d5f9d07d1d3c"/>
+				<reportElement x="584" y="22" width="44" height="16" uuid="fb491be3-9861-44f5-893a-d5f9d07d1d3c"/>
 				<textElement textAlignment="Right">
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="519" y="26" width="52" height="20" uuid="15af298e-3a45-4df0-b9ce-c88fc9d24157"/>
+				<reportElement x="498" y="22" width="44" height="16" uuid="15af298e-3a45-4df0-b9ce-c88fc9d24157"/>
 				<textElement textAlignment="Right">
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Upgrade]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="511" y="7" width="72" height="20" uuid="bd9bce0c-5fe7-4fa7-8ef3-c94818b322cf"/>
+				<reportElement x="455" y="3" width="173" height="20" uuid="bd9bce0c-5fe7-4fa7-8ef3-c94818b322cf"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[High]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="466" y="26" width="52" height="20" uuid="812fcc14-5db7-4d0f-8653-f2fc52191b57"/>
+				<reportElement x="455" y="22" width="44" height="16" uuid="812fcc14-5db7-4d0f-8653-f2fc52191b57"/>
 				<textElement textAlignment="Right">
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Renew]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="667" y="6" width="80" height="20" uuid="9d84877d-ac63-45ee-b168-e8c7e1e80392"/>
+				<reportElement x="629" y="3" width="173" height="20" uuid="9d84877d-ac63-45ee-b168-e8c7e1e80392"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Works Total]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="680" y="26" width="52" height="20" uuid="1839a648-d1dc-47cd-95a1-437f1024a173"/>
+				<reportElement x="672" y="22" width="44" height="16" uuid="1839a648-d1dc-47cd-95a1-437f1024a173"/>
 				<textElement textAlignment="Right">
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Upgrade]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="627" y="26" width="52" height="20" uuid="ed90bdd1-760a-45b4-8a51-772e88290b85"/>
+				<reportElement x="629" y="22" width="44" height="16" uuid="ed90bdd1-760a-45b4-8a51-772e88290b85"/>
 				<textElement textAlignment="Right">
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Renew]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="733" y="26" width="52" height="20" uuid="8ad59a37-8515-41fd-bb24-d0c768583b60"/>
+				<reportElement x="758" y="22" width="44" height="16" uuid="8ad59a37-8515-41fd-bb24-d0c768583b60"/>
 				<textElement textAlignment="Right">
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="193" y="22" width="44" height="16" uuid="789c95bb-6fc8-4459-aa5c-0d77e780bcc3"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[New]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="367" y="22" width="44" height="16" uuid="09c9e050-a461-402c-8906-4fdd493d71df"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[New]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="715" y="22" width="44" height="16" uuid="979cf2dd-4639-45f0-83aa-b4814d71be87"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[New]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="541" y="22" width="44" height="16" uuid="efab0c4e-fffc-4ead-b5a3-390b3946d730"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[New]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20">
+		<band height="16">
 			<textField>
-				<reportElement x="7" y="0" width="139" height="20" uuid="cef9683a-3a15-446b-868b-c4cc4e529d57"/>
+				<reportElement x="2" y="0" width="104" height="15" uuid="cef9683a-3a15-446b-868b-c4cc4e529d57"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{asset_name}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0">
-				<reportElement x="146" y="0" width="52" height="20" uuid="3681d631-10d5-4100-b89e-6401b1e080bb"/>
+				<reportElement x="107" y="0" width="44" height="15" uuid="3681d631-10d5-4100-b89e-6401b1e080bb"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{low_renew_work_cost}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0">
-				<reportElement x="199" y="0" width="52" height="20" uuid="3788fe4d-3602-4408-aae0-5e433b9c9494"/>
+				<reportElement x="150" y="0" width="44" height="15" uuid="3788fe4d-3602-4408-aae0-5e433b9c9494"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{low_upgrd_work_cost}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0">
-				<reportElement x="307" y="0" width="52" height="20" uuid="f81b9d9f-1303-461e-8846-c8a70de918b9"/>
+				<reportElement x="281" y="0" width="44" height="15" uuid="f81b9d9f-1303-461e-8846-c8a70de918b9"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{med_renew_work_cost}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0">
-				<reportElement x="360" y="0" width="52" height="20" uuid="7b5b5f7c-db00-4399-9611-0092170baadc"/>
+				<reportElement x="324" y="0" width="44" height="15" uuid="7b5b5f7c-db00-4399-9611-0092170baadc"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{med_upgrd_work_cost}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0">
-				<reportElement x="468" y="0" width="52" height="20" uuid="066c4106-53cc-42d9-88d2-afe45d3e4e4f"/>
+				<reportElement x="455" y="0" width="44" height="15" uuid="066c4106-53cc-42d9-88d2-afe45d3e4e4f"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{hgh_renew_work_cost}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0">
-				<reportElement x="521" y="0" width="52" height="20" uuid="ee712392-d7e7-44cf-a3ab-e105aa17ea4a"/>
+				<reportElement x="498" y="0" width="44" height="15" uuid="ee712392-d7e7-44cf-a3ab-e105aa17ea4a"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{hgh_upgrd_work_cost}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0">
-				<reportElement x="252" y="0" width="52" height="20" uuid="6b259f83-cac1-4453-a89f-779b16efdf21"/>
+				<reportElement x="236" y="0" width="44" height="15" uuid="6b259f83-cac1-4453-a89f-779b16efdf21"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{low_upgrd_work_cost} + $F{low_renew_work_cost}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0">
-				<reportElement x="413" y="0" width="52" height="20" uuid="e285199f-3bfe-4111-bcdc-7068d2189138"/>
+				<reportElement x="410" y="0" width="44" height="15" uuid="e285199f-3bfe-4111-bcdc-7068d2189138"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{med_upgrd_work_cost} + $F{med_renew_work_cost}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0">
-				<reportElement x="573" y="0" width="52" height="20" uuid="ebd039cd-1b4a-41c1-88a1-714367c3b507"/>
+				<reportElement x="584" y="0" width="44" height="15" uuid="ebd039cd-1b4a-41c1-88a1-714367c3b507"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{hgh_upgrd_work_cost} + $F{hgh_renew_work_cost}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0">
-				<reportElement x="735" y="0" width="52" height="20" uuid="66438b1e-16b1-483c-be4b-4daf6ca2a7d3"/>
+				<reportElement x="758" y="0" width="44" height="15" uuid="66438b1e-16b1-483c-be4b-4daf6ca2a7d3"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{low_renew_work_cost} + $F{low_upgrd_work_cost} + $F{med_renew_work_cost} + $F{med_upgrd_work_cost} + $F{hgh_upgrd_work_cost} + $F{hgh_renew_work_cost}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{low_renew_work_cost} + $F{low_upgrd_work_cost} + $F{low_new_work_cost}+ $F{med_renew_work_cost} + $F{med_upgrd_work_cost} + $F{med_new_work_cost}+ $F{hgh_upgrd_work_cost} + $F{hgh_renew_work_cost} + $F{hgh_new_work_cost}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0">
-				<reportElement x="629" y="0" width="52" height="20" uuid="0d84d33f-b96a-4787-b513-46b2a44daf90"/>
+				<reportElement x="629" y="0" width="44" height="15" uuid="0d84d33f-b96a-4787-b513-46b2a44daf90"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{low_renew_work_cost} + $F{med_renew_work_cost} + $F{hgh_renew_work_cost}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0">
-				<reportElement x="682" y="0" width="52" height="20" uuid="abb60eaf-c5c1-481a-a18d-8271d8a8d61d"/>
+				<reportElement x="672" y="0" width="44" height="15" uuid="abb60eaf-c5c1-481a-a18d-8271d8a8d61d"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{low_upgrd_work_cost} + $F{med_upgrd_work_cost} + $F{hgh_upgrd_work_cost}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0">
+				<reportElement x="193" y="0" width="44" height="15" uuid="ef6b20d6-2c65-4ba6-a857-4a34eedbe318"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{low_new_work_cost}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0">
+				<reportElement x="367" y="0" width="44" height="15" uuid="455fc669-d9bb-4d48-b9e0-bed88bd6c7d6"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{med_upgrd_work_cost}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0">
+				<reportElement x="715" y="0" width="44" height="15" uuid="daece749-7e88-4479-8608-4494c780c8bc"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{low_new_work_cost} + $F{med_new_work_cost} + $F{hgh_new_work_cost}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0">
+				<reportElement x="541" y="0" width="44" height="15" uuid="630dcf68-993a-4d27-ac8d-9c5a4ed67f41"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hgh_new_work_cost}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -503,30 +670,30 @@
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="48">
+		<band height="42">
 			<textField pattern="¤ #,##0">
-				<reportElement x="145" y="4" width="52" height="20" uuid="a45f4355-f7c5-4bbe-8ce7-196082483fc6"/>
+				<reportElement x="107" y="4" width="44" height="15" uuid="a45f4355-f7c5-4bbe-8ce7-196082483fc6"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{low_renew_total}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="8" y="4" width="137" height="20" uuid="a1eb9c9e-a838-4ce5-a44b-c57084ca7f65"/>
+				<reportElement x="2" y="4" width="104" height="15" uuid="a1eb9c9e-a838-4ce5-a44b-c57084ca7f65"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Report Totals]]></text>
 			</staticText>
 			<textField pattern="¤ #,##0">
-				<reportElement x="198" y="4" width="52" height="20" uuid="17677392-2a93-48b6-89b8-40c91f9259a8"/>
+				<reportElement x="150" y="4" width="44" height="15" uuid="17677392-2a93-48b6-89b8-40c91f9259a8"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{low_upgrd_total}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0">
-				<reportElement x="251" y="4" width="52" height="20" uuid="f7054a95-24b3-4254-85f3-ec0322a48e20"/>
+				<reportElement x="236" y="4" width="44" height="15" uuid="f7054a95-24b3-4254-85f3-ec0322a48e20"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -536,74 +703,102 @@
 				<reportElement x="5" y="3" width="792" height="1" forecolor="#666666" uuid="537dc1d3-6dde-48d4-9c02-d32adbf9f324"/>
 			</line>
 			<staticText>
-				<reportElement x="353" y="28" width="100" height="20" uuid="c31f3a74-d006-41e5-b5f7-940c61e268d1"/>
+				<reportElement x="353" y="21" width="100" height="20" uuid="c31f3a74-d006-41e5-b5f7-940c61e268d1"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[*** End of Report ***]]></text>
 			</staticText>
 			<textField pattern="¤ #,##0">
-				<reportElement x="412" y="4" width="52" height="20" uuid="57ca019e-c6a5-4045-8f23-82b6dbe06ac1"/>
+				<reportElement x="410" y="4" width="44" height="15" uuid="57ca019e-c6a5-4045-8f23-82b6dbe06ac1"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{med_total}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0">
-				<reportElement x="306" y="4" width="52" height="20" uuid="48ac3fa7-1d4a-4207-bca2-23cfdffd7e36"/>
+				<reportElement x="281" y="4" width="44" height="15" uuid="48ac3fa7-1d4a-4207-bca2-23cfdffd7e36"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{med_renew_total}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0" isBlankWhenNull="true">
-				<reportElement x="359" y="4" width="52" height="20" uuid="b9654560-17a9-4678-9688-17d5d9a37ccc"/>
+				<reportElement x="324" y="4" width="44" height="15" uuid="b9654560-17a9-4678-9688-17d5d9a37ccc"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{med_upgrd_total}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0" isBlankWhenNull="true">
-				<reportElement x="573" y="4" width="52" height="20" uuid="f99a46ef-8ba6-4dda-b5f8-742ac2bf5c09"/>
+				<reportElement x="584" y="4" width="44" height="15" uuid="f99a46ef-8ba6-4dda-b5f8-742ac2bf5c09"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{hgh_total}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0">
-				<reportElement x="467" y="4" width="52" height="20" uuid="016013f7-075b-4d5d-bd5a-c699f6962a33"/>
+				<reportElement x="455" y="4" width="44" height="15" uuid="016013f7-075b-4d5d-bd5a-c699f6962a33"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{hgh_renew_total}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0" isBlankWhenNull="true">
-				<reportElement x="520" y="4" width="52" height="20" uuid="57171454-fa69-4908-bfb1-606ac5ef8374"/>
+				<reportElement x="498" y="4" width="44" height="15" uuid="57171454-fa69-4908-bfb1-606ac5ef8374"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{hgh_upgrd_total}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0" isBlankWhenNull="true">
-				<reportElement x="735" y="4" width="52" height="20" uuid="d20a4183-7687-4e2c-889a-13e8b0a3541b"/>
+				<reportElement x="758" y="4" width="44" height="15" uuid="d20a4183-7687-4e2c-889a-13e8b0a3541b"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{low_total} + $V{med_total} + $V{hgh_total}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0" isBlankWhenNull="true">
-				<reportElement x="682" y="4" width="52" height="20" uuid="e084af30-41ec-47e4-b625-4b8bd7e80adb"/>
+				<reportElement x="672" y="4" width="44" height="15" uuid="e084af30-41ec-47e4-b625-4b8bd7e80adb"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{low_upgrd_total} + $V{med_upgrd_total} + $V{hgh_upgrd_total}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0">
-				<reportElement x="629" y="4" width="52" height="20" uuid="602f0238-3caf-44c8-ae60-224a54e30a32"/>
+				<reportElement x="629" y="4" width="44" height="15" uuid="602f0238-3caf-44c8-ae60-224a54e30a32"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{low_renew_total} + $V{med_renew_total} + $V{hgh_renew_total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0">
+				<reportElement x="193" y="4" width="44" height="15" uuid="3d389263-2aa5-40de-831a-dec3395500fb"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{low_new_total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0" isBlankWhenNull="true">
+				<reportElement x="367" y="4" width="44" height="15" uuid="7d2452af-3441-4dcb-824d-876a3480e6b5"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{med_new_total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0" isBlankWhenNull="true">
+				<reportElement x="541" y="4" width="44" height="15" uuid="60915ec2-04ef-4773-8b6d-db8e0f1617c4"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{hgh_new_total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0" isBlankWhenNull="true">
+				<reportElement x="715" y="4" width="44" height="15" uuid="d12631d0-e085-401c-ab8a-84dd3d20e58c"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{low_new_total} + $V{med_new_total} + $V{hgh_new_total}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>
