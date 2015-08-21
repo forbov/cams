@@ -14,7 +14,7 @@
   <%= f.hidden_field :report_generated, :value => false %>
   <div class="row collapse">
 	 	<div class="small-3 columns">
-	    <%= f.label :report_title, class: "right inline" %>
+	    <%= f.label 'Title', class: "right inline" %>
 	  </div>
 	  <div class="small-5 columns">
 	  	<%= f.text_field :report_title %>
@@ -23,7 +23,7 @@
 	</div>
   <div class="row collapse">
 	 	<div class="small-3 columns">
-	    <%= f.label :report_desc, class: "right inline" %>
+	    <%= f.label 'Description', class: "right inline" %>
 	  </div>
 	  <div class="small-8 columns">
 	  	<%= f.text_area :report_desc %>
@@ -32,7 +32,7 @@
 	</div>
   <div class="row collapse">
 	 	<div class="small-3 columns">
-	    <%= f.label :report_date, class: "right inline" %>
+	    <%= f.label 'Date', class: "right inline" %>
 	  </div>
 	  <div class="small-3 columns">
 		  <% if @council_report.id? %>
